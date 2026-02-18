@@ -176,7 +176,6 @@ pkgs.neovim.override {
             tree-sitter-dockerfile
           ]
         ))
-        playground
 
         # treesitter-based dimming of inactive code
         twilight-nvim
