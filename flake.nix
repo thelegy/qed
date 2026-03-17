@@ -6,6 +6,12 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+      inputs.flake-parts.follows = "flake-parts";
+    };
   };
 
   outputs =
@@ -13,42 +19,36 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = import inputs.systems;
 
-      flake.overlays.default = final: prev: {
-        qed = final.callPackage ./default.nix { };
-      };
+      imports = [
+        inputs.nixvim.flakeModules.default
+      ];
+
+      nixvim.packages.enable = true;
+      nixvim.checks.enable = true;
+
+      flake.nixvimModules.default = ./config;
 
       perSystem =
-        { system, ... }:
-        let
-          pkgs = import inputs.nixpkgs {
-            inherit system;
-            overlays = [ inputs.self.overlays.default ];
-          };
-        in
         {
-          packages.default = pkgs.qed;
-          packages.qed = pkgs.qed;
-
-          checks.stylua =
-            pkgs.runCommand "stylua"
-              {
-                src = ./.;
-                buildInputs = [ pkgs.stylua ];
-              }
-              ''
-                cd $src
-                stylua --check lua/
-                touch $out
-              '';
-
-          devShells.defaults = pkgs.mkShell {
-            inputsFrom = [ pkgs.qed ];
+          config,
+          pkgs,
+          system,
+          ...
+        }:
+        {
+          devShells.default = pkgs.mkShellNoCC {
+            inputsFrom = [ config.packages.default ];
             packages = [
               pkgs.lua-language-server
               pkgs.stylua
             ];
           };
-        };
 
+          nixvimConfigurations.default = inputs.nixvim.lib.evalNixvim {
+            inherit system;
+            modules = [ inputs.self.nixvimModules.default ];
+          };
+
+        };
     };
 }
