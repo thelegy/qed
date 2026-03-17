@@ -1,51 +1,54 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    systems.url = "github:nix-systems/default";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs }:
-    let
-      lib = nixpkgs.lib;
-      systems = lib.platforms.unix;
-      forAllSystems = lib.genAttrs systems;
-    in {
-      overlays.default = final: prev: {
-        qed = final.callPackage ./default.nix {};
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = import inputs.systems;
+
+      flake.overlays.default = final: prev: {
+        qed = final.callPackage ./default.nix { };
       };
 
-      packages = forAllSystems (system:
-        let pkgs = import nixpkgs { inherit system; overlays = [ self.overlays.default ]; };
-        in {
-          default = pkgs.qed;
-          qed = pkgs.qed;
-          stylua = pkgs.runCommand "stylua" {
-            src = ./.;
-            buildInputs = [ pkgs.stylua ];
-          } ''
-          cd $src
-          stylua --check lua/
-          touch $out
-          '';
-        }
-      );
-
-      checks = forAllSystems (system:
-        {
-          build = self.packages.${system}.default;
-          stylua = self.packages.${system}.stylua;
-        }
-      );
-
-      devShell = forAllSystems (system:
+      perSystem =
+        { system, ... }:
         let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in pkgs.mkShell {
-          inputsFrom = [ self.packages.${system}.default ];
-          packages = [
-            pkgs.lua-language-server
-            pkgs.stylua
-          ];
-        }
-      );
+          pkgs = import inputs.nixpkgs {
+            inherit system;
+            overlays = [ inputs.self.overlays.default ];
+          };
+        in
+        {
+          packages.default = pkgs.qed;
+          packages.qed = pkgs.qed;
+
+          checks.stylua =
+            pkgs.runCommand "stylua"
+              {
+                src = ./.;
+                buildInputs = [ pkgs.stylua ];
+              }
+              ''
+                cd $src
+                stylua --check lua/
+                touch $out
+              '';
+
+          devShells.defaults = pkgs.mkShell {
+            inputsFrom = [ pkgs.qed ];
+            packages = [
+              pkgs.lua-language-server
+              pkgs.stylua
+            ];
+          };
+        };
+
     };
 }
