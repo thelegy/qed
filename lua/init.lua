@@ -685,11 +685,7 @@ require("fidget").setup {}
 
 require("crates").setup()
 
-require("trouble").setup {
-  icons = false,
-  -- Not required since a bar is used
-  padding = false,
-}
+require("trouble").setup {}
 
 -- Parsers are supplied by Nix; enable native highlighting where one is available.
 vim.api.nvim_create_autocmd("FileType", {
