@@ -54,7 +54,12 @@ vim.opt.showmode = false
 -- Setup completion window for nvim-cmp
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
-vim.g.highlightedyank_highlight_duration = 200
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("HighlightYank", { clear = true }),
+  callback = function()
+    vim.hl.on_yank { timeout = 200 }
+  end,
+})
 
 local silent = { silent = true }
 local remap = { remap = true }

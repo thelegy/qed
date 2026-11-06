@@ -140,7 +140,6 @@
 
     nvim-gdb
 
-    vim-highlightedyank
     #vim-numbertoggle
 
     # A Vim plugin which shows a git diff in the 'gutter' (sign column).
