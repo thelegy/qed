@@ -698,12 +698,16 @@ require("trouble").setup {
   padding = false,
 }
 
--- require("nvim-treesitter.configs").setup {
---   highlight = {
---     enable = true,
---     additional_vim_regex_highlighting = false,
---   },
--- }
+-- Parsers are supplied by Nix; enable native highlighting where one is available.
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("TreesitterHighlight", { clear = true }),
+  callback = function(ev)
+    local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
+    if lang and vim.treesitter.language.add(lang) then
+      vim.treesitter.start(ev.buf, lang)
+    end
+  end,
+})
 
 require("twilight").setup {}
 
