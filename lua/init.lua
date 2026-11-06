@@ -490,14 +490,12 @@ cmp.setup.cmdline(":", {
   }),
 })
 
--- Setup lspconfig.
+-- Configure native LSP with server defaults supplied by nvim-lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Set up lua for neovim development (config and plugins)
--- Needs to be set up before lspconfig
-require("neodev").setup {}
-
-local nvim_lsp = require("lspconfig")
+require("neodev").setup { lspconfig = false }
+vim.lsp.config("*", { capabilities = capabilities })
 
 -- vim.keymap.set is not recursive by default ('noremap' is ignored).
 -- Use 'remap' option if recursive bindings are required.
@@ -556,14 +554,8 @@ local lsp_servers = {
   "ts_ls",
   "svelte",
 }
-for _, lsp_server in ipairs(lsp_servers) do
-  nvim_lsp[lsp_server].setup {
-    capabilities = capabilities,
-  }
-end
-
-nvim_lsp.lua_ls.setup {
-  capabilities = capabilities,
+vim.lsp.config("lua_ls", {
+  before_init = require("neodev.lsp").before_init,
   settings = {
     Lua = {
       telemetry = {
@@ -571,9 +563,8 @@ nvim_lsp.lua_ls.setup {
       },
     },
   },
-}
-nvim_lsp.nil_ls.setup {
-  capabilities = capabilities,
+})
+vim.lsp.config("nil_ls", {
   settings = {
     ["nil"] = {
       formatting = {
@@ -581,7 +572,9 @@ nvim_lsp.nil_ls.setup {
       },
     },
   },
-}
+})
+vim.lsp.enable(lsp_servers)
+vim.lsp.enable("lua_ls")
 
 vim.g.rustaceanvim = {
   -- Plugin configuration
