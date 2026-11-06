@@ -6,6 +6,10 @@
 
   extraConfigLua = lib.readFile ../lua/init.lua;
 
+  # The configured plugins do not use Python or Ruby remote-plugin hosts.
+  withPython3 = false;
+  withRuby = false;
+
   extraPlugins = with pkgs.vimPlugins; [
     # Library
     plenary-nvim
