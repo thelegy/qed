@@ -36,6 +36,11 @@
           ...
         }:
         {
+          checks.stylua = pkgs.runCommand "stylua-check" { nativeBuildInputs = [ pkgs.stylua ]; } ''
+            stylua --check --config-path ${./.stylua.toml} ${./lua}
+            touch "$out"
+          '';
+
           devShells.default = pkgs.mkShellNoCC {
             inputsFrom = [ config.packages.default ];
             packages = [

@@ -36,4 +36,4 @@ jobs:
           name: qed
           skipPush: true
       - name: "Code style check (stylua)"
-        run: nix --print-build-logs build --no-link .#stylua
+        run: nix --print-build-logs build --no-link .#checks.x86_64-linux.stylua
