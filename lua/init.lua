@@ -680,9 +680,9 @@ dap.listeners.before.event_exited.dapui_config = function()
   dapui.close()
 end
 
-local lsp_lines = require("lsp_lines")
-lsp_lines.setup()
-vim.keymap.set("", "<Leader>v", lsp_lines.toggle, { desc = "Toggle lsp_lines" })
+vim.keymap.set("", "<Leader>v", function()
+  vim.diagnostic.config { virtual_lines = not vim.diagnostic.config().virtual_lines }
+end, { desc = "Toggle diagnostic virtual lines" })
 
 require("fidget").setup {}
 

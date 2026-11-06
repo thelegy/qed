@@ -84,7 +84,6 @@
 
     # Diagnostics UI
     trouble-nvim
-    lsp_lines-nvim
 
     # Show lsp status and log in the corner
     fidget-nvim
