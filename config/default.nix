@@ -6,6 +6,9 @@
   withPython3 = false;
   withRuby = false;
 
+  # Gitsigns must also work in isolated builds and outside a developer shell.
+  extraPackages = [ pkgs.git ];
+
   extraPlugins = with pkgs.vimPlugins; [
     # Library
     plenary-nvim
