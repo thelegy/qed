@@ -7,7 +7,7 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
       inputs.flake-parts.follows = "flake-parts";
@@ -46,7 +46,10 @@
 
           nixvimConfigurations.default = inputs.nixvim.lib.evalNixvim {
             inherit system;
-            modules = [ inputs.self.nixvimModules.default ];
+            modules = [
+              inputs.self.nixvimModules.default
+              { nixpkgs.source = inputs.nixpkgs; }
+            ];
           };
 
         };

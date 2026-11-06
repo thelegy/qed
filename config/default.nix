@@ -1,5 +1,9 @@
 { lib, pkgs, ... }:
 {
+  # imports = [
+  #   ./theme.nix
+  # ];
+
   extraConfigLua = lib.readFile ../lua/init.lua;
 
   extraPlugins = with pkgs.vimPlugins; [
@@ -61,7 +65,7 @@
 
     # neovim native language server support
     nvim-lspconfig
-    null-ls-nvim
+    none-ls-nvim
 
     # debug adapter
     nvim-dap

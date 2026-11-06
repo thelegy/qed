@@ -613,7 +613,6 @@ local null_ls = require("null-ls")
 null_ls.setup {
   sources = {
     null_ls.builtins.code_actions.gitsigns,
-    null_ls.builtins.code_actions.shellcheck,
     null_ls.builtins.completion.spell,
     -- ESLint does not properly detect if the repository is set up for eslint,
     -- i.e. it shows an error in every file when the eslint config is missing.
@@ -699,12 +698,12 @@ require("trouble").setup {
   padding = false,
 }
 
-require("nvim-treesitter.configs").setup {
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-}
+-- require("nvim-treesitter.configs").setup {
+--   highlight = {
+--     enable = true,
+--     additional_vim_regex_highlighting = false,
+--   },
+-- }
 
 require("twilight").setup {}
 
