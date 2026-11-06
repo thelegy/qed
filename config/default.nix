@@ -80,7 +80,7 @@
     crates-nvim
 
     # neovim config/plugin development
-    neodev-nvim
+    lazydev-nvim
 
     # Diagnostics UI
     trouble-nvim

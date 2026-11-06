@@ -494,7 +494,7 @@ cmp.setup.cmdline(":", {
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Set up lua for neovim development (config and plugins)
-require("neodev").setup { lspconfig = false }
+require("lazydev").setup {}
 vim.lsp.config("*", { capabilities = capabilities })
 
 -- vim.keymap.set is not recursive by default ('noremap' is ignored).
@@ -559,7 +559,6 @@ local lsp_servers = {
   "svelte",
 }
 vim.lsp.config("lua_ls", {
-  before_init = require("neodev.lsp").before_init,
   settings = {
     Lua = {
       telemetry = {
