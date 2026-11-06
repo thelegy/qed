@@ -1,9 +1,5 @@
 { lib, pkgs, ... }:
 {
-  # imports = [
-  #   ./theme.nix
-  # ];
-
   extraConfigLua = lib.readFile ../lua/init.lua;
 
   # The configured plugins do not use Python or Ruby remote-plugin hosts.
@@ -15,14 +11,12 @@
     plenary-nvim
 
     # Colorscheme
-    #gruvbox-nvim
     kanagawa-nvim
     gruvbox-community
     tokyonight-nvim
 
     # 's' jump (sneak with addidional label / lightspeed replacement)
     leap-nvim
-    # leap-spooky-nvim
     (pkgs.vimUtils.buildVimPlugin {
       pname = "leap-spooky-nvim";
       version = "unstable";
@@ -63,8 +57,6 @@
 
     nvim-notify
 
-    #fzfWrapper
-    #fzf-vim
 
     which-key-nvim
 
@@ -110,7 +102,6 @@
     # treesitter
     (nvim-treesitter.withPlugins (
       plugins: with plugins; [
-        #tree-sitter-haskell
         tree-sitter-nix
         tree-sitter-lua
         tree-sitter-python
@@ -137,15 +128,10 @@
     # treesitter-based dimming of inactive code
     twilight-nvim
 
-    # highlight other occurences of the word under the cursor
-    #vim-illuminate
-
     nvim-gdb
 
-    #vim-numbertoggle
 
     # A Vim plugin which shows a git diff in the 'gutter' (sign column).
-    #vim-gitgutter
     gitsigns-nvim
 
     nvim-web-devicons
@@ -174,9 +160,6 @@
     # Web development
     vim-svelte
 
-    # Haskell syntax highlighting
-    #haskell-vim
-
     # Godot
     vim-godot
 
@@ -184,7 +167,6 @@
     vim-glsl
 
     # music livecoding
-    #vim-tidal
     (pkgs.vimUtils.buildVimPlugin rec {
       pname = "vim-tidal";
       version = "1.4.8";

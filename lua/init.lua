@@ -98,12 +98,6 @@ vim.keymap.set("n", "<Leader>p", function()
   vim.cmd("NvimTreeFocus")
 end, { desc = "Open file tree" })
 
--- Bufferline
--- TODO conflicts with 'comment blockwise'
---vim.keymap.set("n", "gb", function()
---  vim.cmd("BufferLinePick")
---end, silent)
-
 vim.keymap.set("n", "<Leader>t", function()
   vim.cmd("Trouble")
 end, { desc = "Open diagnostics list" })
@@ -394,10 +388,6 @@ telescope.setup {
 
 vim.keymap.set("n", "<C-p>", telescope_builtin.find_files, { desc = "Find files" })
 
--- TODO evaluate zf once UTF-8 is supported
--- (zig finder, the sorting algorithm is an improvement to fzf)
--- https://github.com/natecraddock/zf
--- https://github.com/natecraddock/telescope-zf-native.nvim
 telescope.load_extension("fzf")
 
 -- Keep selection dialogs in Telescope and input history on Ctrl-J/Ctrl-K.
@@ -761,12 +751,6 @@ vim.keymap.set("n", "<A-9>", go_to_buffer_fn(9), silent)
 vim.keymap.set("n", "<A-0>", go_to_buffer_fn(-1), silent)
 -- C-w is mapped to the window prefix, but A-w is close enough
 vim.keymap.set("n", "<A-w>", close_current_buffer, silent)
-
--- For a future release
--- require('illuminate').configure({
---   -- delay: delay in milliseconds
---   delay = 0,
--- })
 
 require("which-key").setup {}
 
