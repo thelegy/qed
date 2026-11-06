@@ -95,7 +95,13 @@
     cmp-buffer
     cmp-path
     cmp-cmdline
-    cmp_luasnip
+    (cmp_luasnip.overrideAttrs (old: {
+      postPatch = (old.postPatch or "") + ''
+        substituteInPlace lua/cmp_luasnip/init.lua \
+          --replace-fail ${lib.escapeShellArg "\tvim.validate({\n\t\tuse_show_condition = { params.option.use_show_condition, 'boolean' },\n\t\tshow_autosnippets  = { params.option.show_autosnippets,  'boolean' },\n\t})"} \
+          ${lib.escapeShellArg "\tvim.validate('use_show_condition', params.option.use_show_condition, 'boolean')\n\tvim.validate('show_autosnippets', params.option.show_autosnippets, 'boolean')"}
+      '';
+    }))
 
     # Snippets
     luasnip
