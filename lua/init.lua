@@ -553,7 +553,7 @@ local lsp_servers = {
   "pyright",
   "clangd",
   "gdscript",
-  "tsserver",
+  "ts_ls",
   "svelte",
 }
 for _, lsp_server in ipairs(lsp_servers) do
