@@ -552,6 +552,13 @@ local lsp_servers = {
 vim.lsp.config("lua_ls", {
   settings = {
     Lua = {
+      runtime = {
+        version = "LuaJIT",
+      },
+      workspace = {
+        checkThirdParty = false,
+        library = { vim.env.VIMRUNTIME },
+      },
       telemetry = {
         enable = false,
       },
