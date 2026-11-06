@@ -500,8 +500,12 @@ vim.lsp.config("*", { capabilities = capabilities })
 -- vim.keymap.set is not recursive by default ('noremap' is ignored).
 -- Use 'remap' option if recursive bindings are required.
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic at cursor" })
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
+vim.keymap.set("n", "[d", function()
+  vim.diagnostic.jump { count = -1, float = true }
+end, { desc = "Go to previous diagnostic" })
+vim.keymap.set("n", "]d", function()
+  vim.diagnostic.jump { count = 1, float = true }
+end, { desc = "Go to next diagnostic" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Store diagnostics in loclist" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
