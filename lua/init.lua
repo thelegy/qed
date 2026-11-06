@@ -689,6 +689,13 @@ require("fidget").setup {}
 
 require("crates").setup()
 
+require("typst-preview").setup {
+  -- Preserve the previous preview root instead of searching for project markers.
+  get_root = function(path)
+    return vim.fn.fnamemodify(path, ":p:h")
+  end,
+}
+
 require("trouble").setup {}
 
 -- Parsers are supplied by Nix; enable native highlighting where one is available.

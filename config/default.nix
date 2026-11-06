@@ -197,18 +197,8 @@
       patchPhase = "rm Makefile";
     })
 
-    # documents
-    # typst-preview
-    (pkgs.vimUtils.buildVimPlugin {
-      pname = "typst-preview-nvim";
-      version = "unstable";
-      src = pkgs.fetchFromGitHub {
-        owner = "chomosuke";
-        repo = "typst-preview.nvim";
-        rev = "15eaaffc0a2d8cd871f485f399d1d67ed3322a0b";
-        sha256 = "sha256-33clHm4XRfbYKSYrofm1TEaUV2UCIFVqNAc6Js8sTzY=";
-      };
-    })
+    # Document preview; Nixpkgs also supplies tinymist and websocat.
+    typst-preview-nvim
   ];
 
 }
