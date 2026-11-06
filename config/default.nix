@@ -58,7 +58,8 @@
     telescope-symbols-nvim
     telescope-fzf-native-nvim
 
-    dressing-nvim
+    snacks-nvim
+    telescope-ui-select-nvim
 
     nvim-notify
 

@@ -400,23 +400,18 @@ vim.keymap.set("n", "<C-p>", telescope_builtin.find_files, { desc = "Find files"
 -- https://github.com/natecraddock/telescope-zf-native.nvim
 telescope.load_extension("fzf")
 
-require("dressing").setup {
+-- Keep selection dialogs in Telescope and input history on Ctrl-J/Ctrl-K.
+telescope.load_extension("ui-select")
+require("snacks").setup {
   input = {
-    insert_only = false,
-    mappings = {
-      n = {
-        ["<C-k>"] = "HistoryPrev",
-        ["<C-j>"] = "HistoryNext",
-      },
-      i = {
-        ["<C-k>"] = "HistoryPrev",
-        ["<C-j>"] = "HistoryNext",
+    enabled = true,
+    win = {
+      row = 1,
+      keys = {
+        history_prev = { "<C-k>", "hist_up", mode = { "i", "n" } },
+        history_next = { "<C-j>", "hist_down", mode = { "i", "n" } },
       },
     },
-    override = function(conf)
-      conf.anchor = "NW"
-      conf.row = 1
-    end,
   },
 }
 
