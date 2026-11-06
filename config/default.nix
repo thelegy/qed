@@ -147,7 +147,17 @@
     nvim-tree-lua
 
     # Better status bar
-    lualine-nvim
+    (lualine-nvim.overrideAttrs (old: {
+      postPatch = (old.postPatch or "") + ''
+        substituteInPlace lua/lualine/utils/fn_store.lua \
+          --replace-fail "  vim.validate {
+            id = { id, 'n' },
+            fn = { fn, 'f' },
+          }" "  vim.validate('id', id, 'number')
+          vim.validate('fn', fn, 'function')" \
+          --replace-fail "vim.validate { id = { id, 'n' } }" "vim.validate('id', id, 'number')"
+      '';
+    }))
 
     bufferline-nvim
     bufdelete-nvim
