@@ -95,6 +95,7 @@
     cmp-buffer
     cmp-path
     cmp-cmdline
+    cmp-git
     (cmp_luasnip.overrideAttrs (old: {
       postPatch = (old.postPatch or "") + ''
         substituteInPlace lua/cmp_luasnip/init.lua \
