@@ -548,6 +548,7 @@ local lsp_servers = {
   "gdscript",
   "ts_ls",
   "svelte",
+  "just",
 }
 vim.lsp.config("lua_ls", {
   settings = {
